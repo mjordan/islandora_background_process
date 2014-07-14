@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @file
  * Proof of concept Islandora module integrating Background Process
  * (https://www.drupal.org/project/background_process) to execture long-running
  * tasks such as derivative creation.

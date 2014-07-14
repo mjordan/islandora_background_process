@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @file
  * Abstract class for processes that run under the control of the Islandora Background
  * Process module.
  */
@@ -31,4 +32,4 @@ abstract class IslandoraBackgroundProcess {
   // code in the work() method. 
   abstract public function work($object = NULL, $datastream = NULL);
 }
-?>
+
