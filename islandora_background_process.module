@@ -58,14 +58,12 @@ function islandora_background_process_islandora_object_alter(AbstractObject $obj
  * Plugins defined here will be fired after the datastream has been successfully ingested.
  */
 function islandora_background_process_islandora_datastream_ingested(AbstractObject $object, AbstractDatastream $datastream) {
-  if ($datastream->id == 'OBJ') {
-    // Get all objects that are children of IslandoraBackgroundProcess and invoke the
-    // work() method of ones that are intended for this hook. 
-    foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
-      if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_ingested') {
-        $handle = background_process_start(array($instance, 'work'), $object, $datastream);
-      } 
-    }
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook. 
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, $datastream);
+    } 
   }
 }
 
