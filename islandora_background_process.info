@@ -1,0 +1,9 @@
+name = Islandora Background Process
+description = "Implementation of Background Process module for Islandora."
+dependencies[] = islandora
+dependencies[] = background_process
+package = Islandora Tools
+version = 7.x-dev
+core = 7.x
+php = 5.3
+files[] = includes/IslandoraBackgroundProcess.inc

@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * Proof of concept Islandora module integrating Background Process
+ * (https://www.drupal.org/project/background_process) to execture long-running
+ * tasks such as derivative creation.
+ */
+
+/**
+ * Implements hook_islandora_object_ingested().
+ *
+ * Plugins defined here will be fired after an object has been successfully ingested. 
+ */
+function islandora_background_process_islandora_object_ingested(AbstractObject $object) {
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook.
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, NULL);
+    } 
+  }
+}
+
+/**
+ * Implements hook_islandora_object_modified().
+ *
+ * Plugins defined here will be fired after an object has been successfully modified.
+ */
+function islandora_background_process_islandora_object_modified(AbstractObject $object) {
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook.
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, NULL);
+    } 
+  }
+}
+
+/**
+ * Implements hook_islandora_object_alter().
+ *
+ * Plugins defined here will be fired before any object is ingested, modified or purged.
+ * @todo: Confirm that $datastream->getContent() works as expected within this function.
+ */
+function islandora_background_process_islandora_object_alter(AbstractObject $object, array &$context) {
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook.
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, NULL);
+    } 
+  }
+}
+
+/**
+ * Implements hook_islandora_datastream_ingested().
+ *
+ * Plugins defined here will be fired after the datastream has been successfully ingested.
+ */
+function islandora_background_process_islandora_datastream_ingested(AbstractObject $object, AbstractDatastream $datastream) {
+  if ($datastream->id == 'OBJ') {
+    // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+    // work() method of ones that are intended for this hook. 
+    foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+      if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_ingested') {
+        $handle = background_process_start(array($instance, 'work'), $object, $datastream);
+      } 
+    }
+  }
+}
+
+/**
+ * Implements hook_islandora_datastream_modified().
+ *
+ * Plugins defined here will be fired after a datastream has been successfully modified.
+ */
+function islandora_background_process_islandora_datastream_modified(AbstractObject $object, AbstractDatastream $datastream) {
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook.
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, $datastream);
+    } 
+  }
+}
+
+/**
+ * Implements hook_islandora_datastream_alter().
+ *
+ * Plugins defined here will be fired before any datastream is ingested, modified or purged.
+ * @todo: Confirm that $datastream->getContent() works as expected within this function.
+ */
+function islandora_background_process_islandora_datastream_alter(AbstractObject $object, AbstractDatastream $datastream, array &$context) {
+  // Get all objects that are children of IslandoraBackgroundProcess and invoke the
+  // work() method of ones that are intended for this hook.
+  foreach (IslandoraBackgroundProcess::$instances as $index => $instance) {
+    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+      $handle = background_process_start(array($instance, 'work'), $object, $datastream);
+    } 
+  }
+}
+
+/**
+ * Utility function to PUT binary files.
+ *
+ * Required because drupal_http_request() only supports PUT 
+ * data that is formatted as param=value&param=value&...'.
+ *
+ * @param string $put_url
+ *   The URL for the service being PUT to.
+ * @param string $file_path
+ *   Full path to file that is to be PUT.
+ *
+ * @return array/bool
+ *   The output of curl_getinfo() on success, FASLE on failure.
+ */
+function islandora_background_proces_put_binary_file($put_url, $file_path) {
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $put_url);
+  curl_setopt($ch, CURLOPT_PUT, TRUE);
+  $fh = fopen($file_path, 'r');
+  curl_setopt($ch, CURLOPT_INFILE, $fh);
+  curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file_path));
+  $curl_response = curl_exec($ch);
+  fclose($fh);
+  if (curl_errno($ch)) {
+    // @todo: Log the error number.
+    return FALSE;
+  }
+  else {
+    $info = curl_getinfo($ch);
+    return $info;
+  }
+}
+
