@@ -132,3 +132,33 @@ function islandora_background_proces_put_binary_file($put_url, $file_path) {
   }
 }
 
+/**
+ * Query the resource index to get a list of collections
+ * or content models.
+ *
+ * @param string $predicate
+ *  Either 'info:fedora/fedora-system:ContentModel-3.0' (for content
+ *  models) or 'info:fedora/islandora:collectionCModel' (for collections)
+ *
+ * @return array
+ *   List of collection or content model PIDs.
+ */
+function islandora_background_proces_get_collections_cmodels($predicate) {
+  // Query the rindex to get all collections.
+  $tuque = islandora_get_tuque_connection();
+  $ri_query = "select \$object \$label from <#ri>
+     where \$object <fedora-model:hasModel> <$predicate>
+      and \$object <fedora-model:label> \$label";
+  $results = $tuque->repository->ri->itqlQuery($ri_query, 'unlimited');
+  $ret = array();
+  foreach ($results as $member) {
+    $pid = preg_replace('/info:fedora\//', '', $member['object']['value']);
+    $label = $member['label']['value'];
+    // We don't want the root collection.
+    if ($pid != 'islandora:root') {
+      $ret[$pid] = $label;
+    }
+  }
+  return $ret;
+}
+
