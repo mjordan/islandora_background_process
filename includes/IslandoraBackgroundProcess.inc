@@ -6,7 +6,6 @@
  * Process module.
  */
 
-
 abstract class IslandoraBackgroundProcess {
   // The name of the Islandora hook in islandora_background_process.module
   // where the work() method below should be called. All classes that extend
@@ -23,7 +22,7 @@ abstract class IslandoraBackgroundProcess {
   // Initialize and populate a list of objects that are instances of
   // this class, which we will iterate through in the hooks in 
   // islandora_background_process.module.
-  static $instances=array();
+  static $instances = array();
   function __construct() {
     IslandoraBackgroundProcess::$instances[] = $this;
   }
