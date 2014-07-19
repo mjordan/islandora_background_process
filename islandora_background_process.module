@@ -113,7 +113,7 @@ function islandora_background_process_islandora_datastream_alter(AbstractObject 
  * @return array/bool
  *   The output of curl_getinfo() on success, FASLE on failure.
  */
-function islandora_background_proces_put_binary_file($put_url, $file_path) {
+function islandora_background_process_put_binary_file($put_url, $file_path) {
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $put_url);
   curl_setopt($ch, CURLOPT_PUT, TRUE);
@@ -143,7 +143,7 @@ function islandora_background_proces_put_binary_file($put_url, $file_path) {
  * @return array
  *   List of collection or content model PIDs.
  */
-function islandora_background_proces_get_collections_cmodels($predicate) {
+function islandora_background_process_get_collections_cmodels($predicate) {
   // Query the rindex to get all collections.
   $tuque = islandora_get_tuque_connection();
   $ri_query = "select \$object \$label from <#ri>
