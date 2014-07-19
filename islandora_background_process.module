@@ -162,3 +162,17 @@ function islandora_background_process_get_collections_cmodels($predicate) {
   return $ret;
 }
 
+/**
+ * Query the resource index to get a list of collections
+ * or content models.
+ *
+ * @param string $predicate
+ *  Either 'info:fedora/fedora-system:ContentModel-3.0' (for content
+ *  models) or 'info:fedora/islandora:collectionCModel' (for collections)
+ *
+ * @return array
+ *   List of collection or content model PIDs.
+ */
+function islandora_background_process_log($message, $variables = array(), $severity = WATCHDOG_ERROR) {
+  watchdog('islandora_background_process', $message, $variables, $severity);
+}
