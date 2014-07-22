@@ -22,4 +22,6 @@ This module provides an abstract class, IslandoraBackgroundProcess, that can be 
 
 The .module file will need to instantiate the object that manages the background process and provide an admin settings form if any configuration settingsare required by the integration code. See the Islandora Background Process OCR Service integration .module file for an example.
 
+An example module, which adds a datastream comprised of a robots.txt retrieved from a configurable URL to objects when they are first ingested into Islandora, and when they are updated, is available at https://github.com/mjordan/islandora_bprocess_example.
+
 
