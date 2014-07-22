@@ -16,7 +16,7 @@ function islandora_background_process_islandora_object_ingested(AbstractObject $
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook.
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_ingested') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_object_ingested', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, NULL);
     } 
   }
@@ -31,7 +31,7 @@ function islandora_background_process_islandora_object_modified(AbstractObject $
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook.
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_modified') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_object_modified', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, NULL);
     } 
   }
@@ -47,7 +47,7 @@ function islandora_background_process_islandora_object_alter(AbstractObject $obj
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook.
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_object_alter') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_object_alter', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, NULL);
     } 
   }
@@ -62,7 +62,7 @@ function islandora_background_process_islandora_datastream_ingested(AbstractObje
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook. 
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_ingested') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_datastream_ingested', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, $datastream);
     } 
   }
@@ -77,7 +77,7 @@ function islandora_background_process_islandora_datastream_modified(AbstractObje
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook.
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_modified') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_datastream_modified', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, $datastream);
     } 
   }
@@ -93,7 +93,7 @@ function islandora_background_process_islandora_datastream_alter(AbstractObject 
   // Get all objects that are children of IslandoraBackgroundProcess and invoke the
   // work() method of ones that are intended for this hook.
   foreach (IslandoraBackgroundProcess::$instances as $instance) {
-    if (isset($instance->hook) && $instance->hook == 'islandora_background_process_islandora_datastream_alter') {
+    if (isset($instance->hooks) && in_array('islandora_background_process_islandora_datastream_alter', $instance->hooks)) {
       $handle = background_process_start(array($instance, 'work'), $object, $datastream);
     } 
   }

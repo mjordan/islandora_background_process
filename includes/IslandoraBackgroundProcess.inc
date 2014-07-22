@@ -7,17 +7,17 @@
  */
 
 abstract class IslandoraBackgroundProcess {
-  // The name of the Islandora hook in islandora_background_process.module
+  // An array of hooks in the Islandora hook in islandora_background_process.module
   // where the work() method below should be called. All classes that extend
-  // IslandoraBackgroundProcess need to declare one of the following as their
-  // $hook value:
+  // IslandoraBackgroundProcess need to declare at least one of the following in their
+  // $hooks array:
   // islandora_background_process_islandora_object_ingested,
   // islandora_background_process_islandora_object_modified,
   // islandora_background_process_islandora_object_alter,
   // islandora_background_process_islandora_datastream_ingested,
   // islandora_background_process_islandora_datastream_modified, or
   // islandora_background_process_islandora_datastream_alter.
-  public $hook;
+  public $hooks;
 
   // Initialize and populate a list of objects that are instances of
   // this class, which we will iterate through in the hooks in 
